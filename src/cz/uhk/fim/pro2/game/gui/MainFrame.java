@@ -22,7 +22,6 @@ public class MainFrame extends JFrame {
 			remove(actualScreen);
 		}
 		actualScreen = screen;
-		setTitle(screen.getTitle());
 		add(screen);
 		revalidate();		
 	}
