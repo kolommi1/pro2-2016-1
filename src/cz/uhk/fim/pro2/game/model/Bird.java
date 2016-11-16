@@ -2,6 +2,9 @@ package cz.uhk.fim.pro2.game.model;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
+
+import cz.uhk.fim.pro2.game.gui.MainFrame;
 
 public class Bird {
 	
@@ -24,8 +27,16 @@ public class Bird {
 	
 	public void paint(Graphics g){
 		g.setColor(Color.BLUE);
-		g.fillRect((int)getPositionX(), (int)getPositionY(), 15, 30);
 		
+		Rectangle rectangle = getRectangle();
+		g.fillRect(	(int)rectangle.getX(),
+					(int)rectangle.getY(),
+					(int)rectangle.getWidth(),
+					(int)rectangle.getHeight());		
+	}
+	
+	public Rectangle getRectangle(){
+		return new Rectangle((int)getPositionX() -25, (int)getPositionY() -25, 50, 50);	
 	}
 	
 	public void update(float deltaTime){
@@ -33,6 +44,29 @@ public class Bird {
 		positionY += GRAVITY * deltaTime;
 		
 		speed -= speed * deltaTime;
+	}
+	
+	public boolean collideWith(Tube tube){
+		Rectangle rectangle = getRectangle();		
+		return rectangle.intersects(tube.getBottomRectangle()) || rectangle.intersects(tube.getTopRectangle());
+	}
+	
+	public boolean collideWith(Heart heart){
+		return getRectangle().intersects(heart.getRectangle());
+	}
+	
+	public boolean isOutOf(){
+		Rectangle rectangle = getRectangle();
+		
+		if(rectangle.getMinX()<0 || rectangle.getMinY()< 0){
+			return true;
+		}
+		
+		if(rectangle.getMaxX()>MainFrame.WIDTH || rectangle.getMaxY()> MainFrame.HEIGHT){
+			return true;
+		}
+		
+		return false;
 	}
 	
 	public void goUp(){

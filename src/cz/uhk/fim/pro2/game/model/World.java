@@ -3,18 +3,22 @@ package cz.uhk.fim.pro2.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import cz.uhk.fim.pro2.game.interfacer.WorldListener;
+
 public class World {
 
 	public static final int SPEED = 100;
 	
 	//atributy
 	private Bird bird;
+	private WorldListener worldListener;
 	private List<Tube> tubes;
 	private List<Heart> hearts;
 
 	//konstruktor
-	public World(Bird bird) {
+	public World(Bird bird, WorldListener worldListener) {
 		this.bird = bird;
+		this.worldListener = worldListener;
 		tubes = new ArrayList<>();
 		hearts = new ArrayList<>();
 	}
@@ -22,12 +26,24 @@ public class World {
 	public void update(float deltaTime){
 		bird.update(deltaTime);
 	
+		if(bird.isOutOf()){
+			worldListener.outOf();
+		}		
+		
 		for(Heart heart : hearts){
-			heart.update(deltaTime);		
+			heart.update(deltaTime);
+			
+			if(bird.collideWith(heart)){
+				worldListener.catchHeart();
+			}
 		}		
 		
 		for(Tube tube : tubes){
 			tube.update(deltaTime);	
+			
+			if(bird.collideWith(tube)){
+				worldListener.crashTube();
+			}
 		}	
 	}
 	

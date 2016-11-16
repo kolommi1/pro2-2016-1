@@ -10,12 +10,13 @@ import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.Timer;
 
+import cz.uhk.fim.pro2.game.interfacer.WorldListener;
 import cz.uhk.fim.pro2.game.model.Bird;
 import cz.uhk.fim.pro2.game.model.Heart;
 import cz.uhk.fim.pro2.game.model.Tube;
 import cz.uhk.fim.pro2.game.model.World;
 
-public class GameScreen extends Screen {
+public class GameScreen extends Screen implements WorldListener {
 	
 	private long lastTimeMillis;
 	
@@ -59,7 +60,7 @@ public class GameScreen extends Screen {
 		//WORLD	
 		Bird bird = new Bird("Flappy", 240, 400);
 		
-		World world = new World(bird);
+		World world = new World(bird, this);
 		world.addTubet(new Tube(400, 400, Color.green));
 		world.addTubet(new Tube(600, 300, Color.green));
 		world.addTubet(new Tube(800, 500, Color.green));
@@ -86,7 +87,7 @@ public class GameScreen extends Screen {
 				long currentTimeMillis = System.currentTimeMillis();
 				
 				float delta = (currentTimeMillis - lastTimeMillis)/1000f; 
-				System.out.println(delta);
+			//	System.out.println(delta);
 				world.update(delta);
 				gamecanvas.repaint();
 				lastTimeMillis = currentTimeMillis;
@@ -94,6 +95,23 @@ public class GameScreen extends Screen {
 		});
 		lastTimeMillis = System.currentTimeMillis();
 		timer.start();
+	}
+
+	@Override
+	public void crashTube() {
+		System.out.println("trubka");
+		
+	}
+
+	@Override
+	public void outOf() {
+		System.out.println("venku");
+		
+	}
+
+	@Override
+	public void catchHeart() {
+		System.out.println("srdce");		
 	}
 
 }
