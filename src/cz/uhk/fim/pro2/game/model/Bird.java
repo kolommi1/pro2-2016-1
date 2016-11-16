@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 public class Bird {
+	
+	private static final int GRAVITY = 300;
+	private static final int JUMP = 700;
 
 	private String name;
 	private float positionX, positionY;
@@ -26,7 +29,14 @@ public class Bird {
 	}
 	
 	public void update(float deltaTime){
-		positionX += World.SPEED * deltaTime;
+		positionY -= speed* deltaTime;
+		positionY += GRAVITY * deltaTime;
+		
+		speed -= speed * deltaTime;
+	}
+	
+	public void goUp(){
+		speed = JUMP;
 	}
 	
 	public String getName(){
@@ -65,10 +75,6 @@ public class Bird {
 		this.lives = lives;
 	}
 
-	public void goUp(){
-		
-	}
-	
 	public void catchHeart(){
 			
 	}

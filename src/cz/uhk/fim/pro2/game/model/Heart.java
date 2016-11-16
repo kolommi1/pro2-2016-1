@@ -23,6 +23,10 @@ public class Heart {
 		
 	}
 	
+	public void update(float deltaTime){
+		positionX -= World.SPEED * deltaTime;
+	}
+	
 	public float getPositionX() {
 		return positionX;
 	}

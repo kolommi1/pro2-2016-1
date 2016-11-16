@@ -1,7 +1,6 @@
 package cz.uhk.fim.pro2.game.gui;
 
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.List;
 

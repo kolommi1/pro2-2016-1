@@ -33,6 +33,10 @@ public class Tube {
 					50,
 					(int)(height - GAP));
 	}
+	
+	public void update(float deltaTime){
+		positionX -= World.SPEED * deltaTime;
+	}
 
 	public float getPositionX() {
 		return positionX;
