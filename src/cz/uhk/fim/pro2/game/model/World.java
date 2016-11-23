@@ -34,7 +34,7 @@ public class World {
 			heart.update(deltaTime);
 			
 			if(bird.collideWith(heart)){
-				worldListener.catchHeart();
+				worldListener.catchHeart(heart);
 			}
 		}		
 		
@@ -42,7 +42,16 @@ public class World {
 			tube.update(deltaTime);	
 			
 			if(bird.collideWith(tube)){
-				worldListener.crashTube();
+				tube.setCounted(true);
+				worldListener.crashTube(tube);
+			}
+			else {
+				if(bird.getPositionX()>tube.getMinX() && bird.getPositionX()<tube.getMaxX()){
+					if(!tube.isCounted()){
+						bird.addPoint();					
+						tube.setCounted(true);
+					}
+				}
 			}
 		}	
 	}
@@ -68,12 +77,10 @@ public class World {
 	}
 
 	public List<Heart> getHearts() {
-		// TODO Auto-generated method stub
 		return hearts;
 	}
 
-	public List<Tube> getTubes() {
-		// TODO Auto-generated method stub
+	public List<Tube> getTubes() {		
 		return tubes;
 	}
 }

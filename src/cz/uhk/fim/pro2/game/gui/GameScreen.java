@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.Timer;
 
 import cz.uhk.fim.pro2.game.interfacer.WorldListener;
@@ -21,6 +22,8 @@ public class GameScreen extends Screen implements WorldListener {
 	private long lastTimeMillis;
 	
 	private Timer timer;
+	private Bird bird;
+	private JLabel jLabelScore, jLabelLifes;
 
 	public GameScreen(MainFrame mainFrame) {
 		super(mainFrame);
@@ -31,6 +34,7 @@ public class GameScreen extends Screen implements WorldListener {
 		jButtonBack.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				timer.stop();
 				mainFrame.setScreen(new HomeScreen(mainFrame));
 			}
 		});
@@ -57,8 +61,17 @@ public class GameScreen extends Screen implements WorldListener {
 		add(jButtonPause);
 		add(jButtonBack);
 		
+		jLabelScore = new JLabel("Score: " + Bird.DEFAULT_SCORE);
+		jLabelLifes = new JLabel("Lives: " + Bird.DEFAULT_LIFES);
+		
+		jLabelLifes.setBounds(260, 20, 120, 60);
+		jLabelScore.setBounds(100, 20, 120, 60);
+		
+		add(jLabelLifes);
+		add(jLabelScore);
+		
 		//WORLD	
-		Bird bird = new Bird("Flappy", 240, 400);
+		bird = new Bird("Flappy", 240, 400);
 		
 		World world = new World(bird, this);
 		world.addTubet(new Tube(400, 400, Color.green));
@@ -86,10 +99,18 @@ public class GameScreen extends Screen implements WorldListener {
 			public void actionPerformed(ActionEvent e) {
 				long currentTimeMillis = System.currentTimeMillis();
 				
-				float delta = (currentTimeMillis - lastTimeMillis)/1000f; 
-			//	System.out.println(delta);
+				float delta = (currentTimeMillis - lastTimeMillis)/1000f;
 				world.update(delta);
+				
+				jLabelLifes.setText("Lifes: " + bird.getLifes());
+				jLabelScore.setText("Score: " + bird.getScore());
+				
+				if(!bird.isAlive()){
+					timer.stop();
+				}
+				
 				gamecanvas.repaint();
+				
 				lastTimeMillis = currentTimeMillis;
 			}
 		});
@@ -98,20 +119,23 @@ public class GameScreen extends Screen implements WorldListener {
 	}
 
 	@Override
-	public void crashTube() {
-		System.out.println("trubka");
-		
+	public void crashTube(Tube tube) {
+		bird.removeLife();
+		bird.setPositionY(tube.getCenterY());
+	}
+
+	@Override
+	public void catchHeart(Heart heart) {
+		heart.setPositionX(-100);
+		bird.catchHeart();	
 	}
 
 	@Override
 	public void outOf() {
-		System.out.println("venku");
+		bird.setPositionY(MainFrame.HEIGHT / 2);
+		bird.setSpeed(Bird.JUMP / 2);
 		
-	}
-
-	@Override
-	public void catchHeart() {
-		System.out.println("srdce");		
+		bird.removeLife();
 	}
 
 }
