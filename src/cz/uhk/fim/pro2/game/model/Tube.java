@@ -3,6 +3,7 @@ package cz.uhk.fim.pro2.game.model;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.util.Random;
 
 import cz.uhk.fim.pro2.game.gui.MainFrame;
 
@@ -84,6 +85,10 @@ public class Tube {
 		return height;
 	}
 
+	public void setHeight(float height) {
+		this.height = height;
+	}
+
 	public Color getColor() {
 		return color;
 	}
@@ -94,6 +99,10 @@ public class Tube {
 
 	public void setCounted(boolean counted) {
 		this.counted = counted;
+	}
+	
+	public static float getRandomHeight(){
+		return (new Random().nextFloat() * 350) + 200;
 	}
 	
 	

@@ -1,6 +1,5 @@
 package cz.uhk.fim.pro2.game.gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -74,13 +73,15 @@ public class GameScreen extends Screen implements WorldListener {
 		bird = new Bird("Flappy", 240, 400);
 		
 		World world = new World(bird, this);
-		world.addTubet(new Tube(400, 400, Color.green));
-		world.addTubet(new Tube(600, 300, Color.green));
-		world.addTubet(new Tube(800, 500, Color.green));
+/*		world.addTube(new Tube(400, 400, Color.green));
+		world.addTube(new Tube(600, 300, Color.green));
+		world.addTube(new Tube(800, 500, Color.green));
+*/
+		world.generateRandom();
 		
-		world.addHeart(new Heart(500, 450));
+	/*	world.addHeart(new Heart(500, 450));
 		world.addHeart(new Heart(700, 600));
-		
+	*/	
 		GameCanvas gamecanvas = new GameCanvas(world);
 		add(gamecanvas);
 		gamecanvas.setBounds(0, 0, MainFrame.WIDTH, MainFrame.HEIGHT);
