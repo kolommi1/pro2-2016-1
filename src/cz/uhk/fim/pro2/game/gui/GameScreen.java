@@ -108,6 +108,7 @@ public class GameScreen extends Screen implements WorldListener {
 				
 				if(!bird.isAlive()){
 					timer.stop();
+					mainFrame.setScreen(new FinishScreen(mainFrame,world));
 				}
 				
 				gamecanvas.repaint();
