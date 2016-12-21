@@ -5,7 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.Timer;
@@ -111,7 +115,7 @@ public class GameScreen extends Screen implements WorldListener {
 					mainFrame.setScreen(new FinishScreen(mainFrame,world));
 				}
 				
-				gamecanvas.repaint();
+				repaint();
 				
 				lastTimeMillis = currentTimeMillis;
 			}
@@ -138,6 +142,16 @@ public class GameScreen extends Screen implements WorldListener {
 		bird.setSpeed(Bird.JUMP / 2);
 		
 		bird.removeLife();
+		try {			
+			File soundFile = new File("assets/hit.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);			
+			Clip clip = AudioSystem.getClip();		
+			clip.open(audioInputStream);
+			
+			clip.start();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
