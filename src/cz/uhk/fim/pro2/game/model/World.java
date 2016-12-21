@@ -1,8 +1,13 @@
 package cz.uhk.fim.pro2.game.model;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import cz.uhk.fim.pro2.game.interfacer.WorldListener;
 
@@ -50,6 +55,16 @@ public class World {
 			if(bird.collideWith(tube)){
 				tube.setCounted(true);
 				worldListener.crashTube(tube);
+				try {			
+					File soundFile = new File("assets/hit.wav");
+					AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);			
+					Clip clip = AudioSystem.getClip();		
+					clip.open(audioInputStream);
+					
+					clip.start();		
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			else {
 				if(!tube.isCounted() && bird.getPositionX()>tube.getMaxX()){

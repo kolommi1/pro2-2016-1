@@ -4,7 +4,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import cz.uhk.fim.pro2.game.gui.GameCanvas;
 import cz.uhk.fim.pro2.game.gui.MainFrame;
 
@@ -29,7 +32,7 @@ public class Bird {
 		this.positionY=positionY;		
 		speed = JUMP/2;
 		lifes = DEFAULT_LIFES;
-		score = DEFAULT_SCORE;
+		score = DEFAULT_SCORE;		
 	}
 	
 	public void paint(Graphics g, BufferedImage image){
@@ -86,6 +89,16 @@ public class Bird {
 	
 	public void goUp(){
 		speed = JUMP;
+		try {			
+			File soundFile = new File("assets/flap.wav");
+			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(soundFile);			
+			Clip clip = AudioSystem.getClip();		
+			clip.open(audioInputStream);
+			
+			clip.start();		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void catchHeart(){
@@ -93,7 +106,7 @@ public class Bird {
 	}
 		
 	public void addPoint(){
-		score++;
+		score++;		
 	}
 	
 	public boolean isAlive(){
